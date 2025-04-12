@@ -12,6 +12,8 @@ public class Unit {
     boolean isMoving = false;
     Vector2 movingTarget = null;
 
+    float speed = 6;
+
     Main main;
 
     public Vector2 velocity = new Vector2(0, 0);
@@ -46,7 +48,7 @@ public class Unit {
         sprite.draw(main.batch);
         main.batch.end();
 
-        sprite.translate(velocity.x, velocity.y);
+        sprite.translate(velocity.x * speed, velocity.y * speed);
     }
 
 }
