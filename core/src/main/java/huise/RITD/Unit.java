@@ -34,7 +34,7 @@ public class Unit {
         selectionTexture = new Texture("Selection.png");
         selection = new Sprite(selectionTexture);
         sr = new ShapeRenderer();
-        sr.setColor(Color.BLACK);
+        sr.setColor(Color.ORANGE);
         sr.setProjectionMatrix(main.camera.combined);
     }
 
