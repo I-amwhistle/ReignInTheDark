@@ -13,6 +13,8 @@ public class Main extends ApplicationAdapter {
     public Unit unit2;
     public Unit[] units;
 
+    public Tower tower;
+
     @Override
     public void create() {
         batch = new SpriteBatch();
@@ -31,6 +33,9 @@ public class Main extends ApplicationAdapter {
         units = new Unit[]{unit, unit2};
         camera.zoom = 50;
 
+        tower = new Tower(this);
+        tower.sprite.setPosition(0,600);
+
     }
 
     @Override
@@ -41,6 +46,7 @@ public class Main extends ApplicationAdapter {
 
         unit.render();
         unit2.render();
+        tower.render();
 
     }
 

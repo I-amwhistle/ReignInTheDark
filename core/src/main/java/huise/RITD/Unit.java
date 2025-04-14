@@ -82,6 +82,17 @@ public class Unit {
             sr.end();
         }
 
+        // attacking a tower
+
+
+
+        if (spritePosition.dst(main.tower.spritePosition) < 50) {
+            System.out.println("Touching Tower");
+            isMoving = false;
+        }
+
+        System.out.println(main.tower.spritePosition + " " + spritePosition);
+
     }
 
 }
