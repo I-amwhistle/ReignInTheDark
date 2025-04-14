@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.graphics.glutils.*;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 
 
 public class Unit {
@@ -42,7 +43,7 @@ public class Unit {
         if (! isSelected) return;
         movingTarget = new Vector2(x, y);
         isMoving = true;
-        Vector2 spritePosition = new Vector2(sprite.getX(), sprite.getY());
+        Vector2 spritePosition = new Vector2(sprite.getX() + sprite.getWidth() / 2, sprite.getY());
         velocity = new Vector2(x, y).sub(spritePosition).nor();
     }
 
@@ -50,7 +51,7 @@ public class Unit {
 
         // Unit moving
 
-        Vector2 spritePosition = new Vector2(sprite.getX(), sprite.getY());
+        Vector2 spritePosition = new Vector2(sprite.getX() + sprite.getWidth() / 2, sprite.getY());
 
         if (! isMoving) {
             velocity = Vector2.Zero;
@@ -75,8 +76,9 @@ public class Unit {
         // draw line from Unit to movingTarget
 
         if (isMoving) {
+            sr.setProjectionMatrix(main.camera.combined); // Update projection matrix
             sr.begin(ShapeType.Filled);
-            sr.rectLine(sprite.getX(), sprite.getY(), movingTarget.x, movingTarget.y, 10);
+            sr.rectLine(sprite.getX() + sprite.getWidth() / 2, sprite.getY(), movingTarget.x, movingTarget.y, 10);
             sr.end();
         }
 
