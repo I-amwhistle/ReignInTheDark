@@ -17,8 +17,14 @@ public class Main extends ApplicationAdapter {
         camera = new OrthographicCamera(30, 30 * (Gdx.graphics.getWidth()/Gdx.graphics.getHeight()));
         camera.position.set(camera.viewportWidth / 2f, camera.viewportHeight / 2f, 10);
         camera.update();
-        Gdx.input.setInputProcessor(new GestureDetector(new InputProcessorMain(this)));
+
+        InputMultiplexer multiplexer = new InputMultiplexer();
+        multiplexer.addProcessor(new InputProcessorMain(this));
+        multiplexer.addProcessor(new GestureDetector(new InputProcessorMain(this)));
+        Gdx.input.setInputProcessor(multiplexer);
+
         unit = new Unit(this);
+        camera.zoom = 50;
 
     }
 
@@ -29,7 +35,7 @@ public class Main extends ApplicationAdapter {
         ScreenUtils.clear(0.15f, 0.15f, 0.2f, 1f);
         batch.begin();
         batch.end();
-        camera.zoom = 50;
+
 
 
         unit.render();

@@ -1,9 +1,11 @@
 package huise.RITD;
 
+import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
-public class InputProcessorMain implements com.badlogic.gdx.input.GestureDetector.GestureListener {
+public class InputProcessorMain implements com.badlogic.gdx.input.GestureDetector.GestureListener, InputProcessor {
 
     Main main;
     float dragSpeed = 3f;
@@ -52,7 +54,8 @@ public class InputProcessorMain implements com.badlogic.gdx.input.GestureDetecto
 
     @Override
     public boolean zoom(float initialDistance, float distance) {
-        return false;
+        main.camera.translate(new Vector3(0f, 0f, distance));
+        return true;
     }
 
     @Override
@@ -64,4 +67,72 @@ public class InputProcessorMain implements com.badlogic.gdx.input.GestureDetecto
     public void pinchStop() {
         return;
     }
+
+
+
+    @Override
+    public boolean keyDown(int keycode) {
+        return false;
+    }
+
+
+
+    @Override
+    public boolean keyUp(int keycode) {
+        return false;
+    }
+
+
+
+    @Override
+    public boolean keyTyped(char character) {
+        return false;
+    }
+
+
+
+    @Override
+    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        return false;
+    }
+
+
+
+    @Override
+    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+        return false;
+
+    }
+
+
+
+    @Override
+    public boolean touchCancelled(int screenX, int screenY, int pointer, int button) {
+        return false;
+    }
+
+
+
+    @Override
+    public boolean touchDragged(int screenX, int screenY, int pointer) {
+        return false;
+    }
+
+
+
+    @Override
+    public boolean mouseMoved(int screenX, int screenY) {
+        return false;
+    }
+
+
+
+    @Override
+    public boolean scrolled(float amountX, float amountY) {
+        main.camera.zoom += amountY * 0.1f;
+        main.camera.zoom = MathUtils.clamp(main.camera.zoom, 0.1f, 100f);
+        System.out.println("Zoom: " + main.camera.zoom);
+        return true;
+    }
+
 }
