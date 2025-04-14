@@ -31,23 +31,26 @@ public class InputProcessorMain implements com.badlogic.gdx.input.GestureDetecto
         Vector3 touchPoint = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
         main.camera.unproject(touchPoint);
 
-        switch (button) {
-            case (0): // Mouse Left
+        for (int i = 0; i < main.units.length; i ++) {
+            switch (button) {
+                case (0): // Mouse Left
 
-                if (main.unit.sprite.getBoundingRectangle().contains(touchPoint.x, touchPoint.y)) {
-                    System.out.println("Unit Selected." + sel);
-                    sel += 1;
-                    main.unit.isSelected = true;
-                } else {
-                    main.unit.isSelected = false;
-                }
-                break;
+                    if (main.units[i].sprite.getBoundingRectangle().contains(touchPoint.x, touchPoint.y)) {
+                        System.out.println("Unit Selected." + sel);
+                        sel += 1;
+                        main.units[i].isSelected = true;
+                    } else {
+                        main.units[i].isSelected = false;
+                    }
+                    break;
 
-            case (1): // Mouse Right
+                case (1): // Mouse Right
 
-                main.unit.moveTo(touchPoint.x, touchPoint.y);
-                break;
+                    main.units[i].moveTo(touchPoint.x, touchPoint.y);
+                    break;
+            }
         }
+
         System.out.println(button);
         return true;
     }

@@ -11,6 +11,8 @@ public class Main extends ApplicationAdapter {
     public SpriteBatch batch;
     public OrthographicCamera camera;
     public Unit unit;
+    public Unit unit2;
+    public Unit[] units;
 
     @Override
     public void create() {
@@ -18,7 +20,6 @@ public class Main extends ApplicationAdapter {
         camera = new OrthographicCamera(30, 30 * (Gdx.graphics.getWidth()/Gdx.graphics.getHeight()));
         camera.position.set(camera.viewportWidth / 2f, camera.viewportHeight / 2f, 10);
         camera.update();
-        //camera.project(new Vector3(camera.viewportWidth / 2f, camera.viewportHeight / 2f, 0));
 
         InputMultiplexer multiplexer = new InputMultiplexer();
         multiplexer.addProcessor(new InputProcessorMain(this));
@@ -26,6 +27,9 @@ public class Main extends ApplicationAdapter {
         Gdx.input.setInputProcessor(multiplexer);
 
         unit = new Unit(this);
+        unit2 = new Unit(this);
+        unit2.sprite.setPosition(100,300);
+        units = new Unit[]{unit, unit2};
         camera.zoom = 50;
 
     }
@@ -39,6 +43,7 @@ public class Main extends ApplicationAdapter {
         batch.end();
 
         unit.render();
+        unit2.render();
 
     }
 

@@ -1,8 +1,10 @@
 package huise.RITD;
 
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.graphics.*;
+import com.badlogic.gdx.graphics.g2d.*;
+import com.badlogic.gdx.math.*;
+import com.badlogic.gdx.graphics.glutils.*;
+
 
 public class Unit {
 
@@ -22,29 +24,36 @@ public class Unit {
     public boolean isSelected = false;
     public Vector2 velocity = new Vector2(0, 0);
 
+    public ShapeRenderer sr;
+
     public Unit(Main main) {
         this.main = main;
         texture = new Texture("libgdx.png");
         sprite = new Sprite(texture);
         selectionTexture = new Texture("Selection.png");
         selection = new Sprite(selectionTexture);
+        sr = new ShapeRenderer();
+        sr.setColor(Color.BLACK);
+        sr.setProjectionMatrix(main.camera.combined);
     }
 
     public void moveTo(float x, float y) {
+
         if (! isSelected) return;
         movingTarget = new Vector2(x, y);
         isMoving = true;
         Vector2 spritePosition = new Vector2(sprite.getX(), sprite.getY());
         velocity = new Vector2(x, y).sub(spritePosition).nor();
     }
-    Vector2 lastFrameMoveVal = null;
+
     public void render() {
+
+        // Unit moving
 
         Vector2 spritePosition = new Vector2(sprite.getX(), sprite.getY());
 
         if (! isMoving) {
             velocity = Vector2.Zero;
-
         }
 
         if (movingTarget != null && spritePosition.dst(movingTarget) < 10) {
@@ -62,6 +71,15 @@ public class Unit {
 
         sprite.translate(velocity.x * speed, velocity.y * speed);
         selection.setPosition(sprite.getX(), sprite.getY());
+
+        // draw line from Unit to movingTarget
+
+        if (isMoving) {
+            sr.begin(ShapeType.Filled);
+            sr.rectLine(sprite.getX(), sprite.getY(), movingTarget.x, movingTarget.y, 10);
+            sr.end();
+        }
+
     }
 
 }
