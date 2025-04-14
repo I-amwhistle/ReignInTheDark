@@ -4,6 +4,7 @@ import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.input.GestureDetector;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.ScreenUtils;
 
 public class Main extends ApplicationAdapter {
@@ -17,6 +18,7 @@ public class Main extends ApplicationAdapter {
         camera = new OrthographicCamera(30, 30 * (Gdx.graphics.getWidth()/Gdx.graphics.getHeight()));
         camera.position.set(camera.viewportWidth / 2f, camera.viewportHeight / 2f, 10);
         camera.update();
+        //camera.project(new Vector3(camera.viewportWidth / 2f, camera.viewportHeight / 2f, 0));
 
         InputMultiplexer multiplexer = new InputMultiplexer();
         multiplexer.addProcessor(new InputProcessorMain(this));
@@ -35,8 +37,6 @@ public class Main extends ApplicationAdapter {
         ScreenUtils.clear(0.15f, 0.15f, 0.2f, 1f);
         batch.begin();
         batch.end();
-
-
 
         unit.render();
 

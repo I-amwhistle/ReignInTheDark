@@ -1,5 +1,6 @@
 package huise.RITD;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
@@ -23,12 +24,31 @@ public class InputProcessorMain implements com.badlogic.gdx.input.GestureDetecto
         return true;
     }
 
+
     @Override
     public boolean touchDown(float x, float y, int pointer, int button) {
-        if (button == 1) {
-            Vector3 projectedCoords = main.camera.unproject(new Vector3(x, y, 0f));
-            main.unit.moveTo(projectedCoords.x, projectedCoords.y);
+
+        Vector3 touchPoint = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
+        main.camera.unproject(touchPoint);
+
+        switch (button) {
+            case (0): // Mouse Left
+
+                if (main.unit.sprite.getBoundingRectangle().contains(touchPoint.x, touchPoint.y)) {
+                    System.out.println("Unit Selected." + sel);
+                    sel += 1;
+                    main.unit.isSelected = true;
+                } else {
+                    main.unit.isSelected = false;
+                }
+                break;
+
+            case (1): // Mouse Right
+
+                main.unit.moveTo(touchPoint.x, touchPoint.y);
+                break;
         }
+        System.out.println(button);
         return true;
     }
 
@@ -89,7 +109,7 @@ public class InputProcessorMain implements com.badlogic.gdx.input.GestureDetecto
         return false;
     }
 
-
+    int sel = 0;
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
@@ -129,7 +149,7 @@ public class InputProcessorMain implements com.badlogic.gdx.input.GestureDetecto
 
     @Override
     public boolean scrolled(float amountX, float amountY) {
-        main.camera.zoom += amountY * 0.1f;
+        main.camera.zoom += amountY * 10 * Gdx.graphics.getDeltaTime();
         main.camera.zoom = MathUtils.clamp(main.camera.zoom, 0.1f, 100f);
         System.out.println("Zoom: " + main.camera.zoom);
         return true;
