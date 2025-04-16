@@ -25,14 +25,18 @@ public class Unit {
 
     Main main;
 
+    public Vector2 spritePosition;
+
     public boolean isSelected = false;
     public Vector2 velocity = new Vector2(0, 0);
 
     public ShapeRenderer sr;
 
+    float rotationVelocity = 0f;
+
     public Unit(Main main) {
         this.main = main;
-        texture = new Texture("libgdx.png");
+        texture = new Texture("Unit.png");
         sprite = new Sprite(texture);
         selectionTexture = new Texture("Selection.png");
         selection = new Sprite(selectionTexture);
@@ -51,11 +55,33 @@ public class Unit {
         velocity = new Vector2(x, y).sub(spritePosition).nor();
     }
 
+
+
     public void render() {
 
-        // Unit moving
+        sprite.setScale(1, 1.2f);;
+        spritePosition = new Vector2(sprite.getX() + sprite.getWidth() / 2, sprite.getY());
+        Vector3 mousePos = main.camera.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0f));
 
-        Vector2 spritePosition = new Vector2(sprite.getX() + sprite.getWidth() / 2, sprite.getY());
+        // face mouse pointer
+
+        if (movingTarget != null) {
+            float radians = (float) Math.atan2(movingTarget.y - spritePosition.y, movingTarget.x - spritePosition.x);
+            if ((int)sprite.getRotation() != radians * 57f - 90f) {
+
+                if (sprite.getRotation() > radians * 57f - 90f) rotationVelocity = 1;
+                else rotationVelocity = 0;
+
+            }
+            System.out.println("rotation: " + sprite.getRotation() % 360 + ", expected:" + (radians * 57f - 90f));
+        }
+
+
+
+
+        sprite.rotate(rotationVelocity);
+
+        // Unit moving
 
         if (! isMoving) {
             velocity = Vector2.Zero;
@@ -87,8 +113,6 @@ public class Unit {
         }
 
         // attacking a tower
-
-
 
         if (spritePosition.dst(main.tower.spritePosition) < 50 && main.tower.hp > 0) {
             System.out.println("Touching Tower hp:" + main.tower.hp);
