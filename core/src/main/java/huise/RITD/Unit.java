@@ -1,5 +1,8 @@
 package huise.RITD;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.math.*;
@@ -41,6 +44,7 @@ public class Unit {
     public void moveTo(float x, float y) {
 
         if (! isSelected) return;
+
         movingTarget = new Vector2(x, y);
         isMoving = true;
         Vector2 spritePosition = new Vector2(sprite.getX() + sprite.getWidth() / 2, sprite.getY());
@@ -78,7 +82,7 @@ public class Unit {
         if (isMoving) {
             sr.setProjectionMatrix(main.camera.combined); // Update projection matrix
             sr.begin(ShapeType.Filled);
-            sr.rectLine(sprite.getX() + sprite.getWidth() / 2, sprite.getY(), movingTarget.x, movingTarget.y, 10);
+            sr.rectLine(sprite.getX() + sprite.getWidth() / 2, sprite.getY(), movingTarget.x, movingTarget.y, 30);
             sr.end();
         }
 
@@ -86,9 +90,11 @@ public class Unit {
 
 
 
-        if (spritePosition.dst(main.tower.spritePosition) < 50) {
-            System.out.println("Touching Tower");
+        if (spritePosition.dst(main.tower.spritePosition) < 50 && main.tower.hp > 0) {
+            System.out.println("Touching Tower hp:" + main.tower.hp);
             isMoving = false;
+            main.tower.hp -= 1;
+
         }
 
         System.out.println(main.tower.spritePosition + " " + spritePosition);

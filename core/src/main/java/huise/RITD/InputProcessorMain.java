@@ -19,6 +19,7 @@ public class InputProcessorMain implements com.badlogic.gdx.input.GestureDetecto
 
     @Override
     public boolean pan (float x, float y, float deltaX, float deltaY) {
+        main.isDragging = true;
         main.camera.position.add( -deltaX * dragSpeed, deltaY * dragSpeed,0);
         main.camera.update();
         return true;

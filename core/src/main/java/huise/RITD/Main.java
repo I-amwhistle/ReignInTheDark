@@ -14,6 +14,7 @@ public class Main extends ApplicationAdapter {
     public Unit[] units;
 
     public Tower tower;
+    public boolean isDragging = false;
 
     @Override
     public void create() {
