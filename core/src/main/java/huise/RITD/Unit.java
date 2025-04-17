@@ -36,7 +36,7 @@ public class Unit {
 
     public Unit(Main main) {
         this.main = main;
-        texture = new Texture("Unit.png");
+        texture = new Texture("libgdx.png");
         sprite = new Sprite(texture);
         selectionTexture = new Texture("Selection.png");
         selection = new Sprite(selectionTexture);
@@ -61,25 +61,6 @@ public class Unit {
 
         sprite.setScale(1, 1.2f);;
         spritePosition = new Vector2(sprite.getX() + sprite.getWidth() / 2, sprite.getY());
-        Vector3 mousePos = main.camera.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0f));
-
-        // face mouse pointer
-
-        if (movingTarget != null) {
-            float radians = (float) Math.atan2(movingTarget.y - spritePosition.y, movingTarget.x - spritePosition.x);
-            if ((int)sprite.getRotation() != radians * 57f - 90f) {
-
-                if (sprite.getRotation() > radians * 57f - 90f) rotationVelocity = 1;
-                else rotationVelocity = 0;
-
-            }
-            System.out.println("rotation: " + sprite.getRotation() % 360 + ", expected:" + (radians * 57f - 90f));
-        }
-
-
-
-
-        sprite.rotate(rotationVelocity);
 
         // Unit moving
 
@@ -89,6 +70,7 @@ public class Unit {
 
         if (movingTarget != null && spritePosition.dst(movingTarget) < 10) {
             isMoving = false;
+            movingTarget = null;
         }
 
         main.batch.begin();
